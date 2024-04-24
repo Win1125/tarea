@@ -12,12 +12,12 @@ const data = [
 ];
 
 //Ruta raíz que devuelve todos los productos
-router.get('/', function (req, res) {
+router.get('/obtenerProductos', function (req, res) {
     res.status(200).json(data);
 });
 
 // Devuelve el producto especifico por ID
-router.get('/:id', function (req, res) {
+router.get('/obtenerProducto/:id', function (req, res) {
     let found = data.find(function (item) {
         return item.id === parseInt(req.params.id);
     });
@@ -31,7 +31,7 @@ router.get('/:id', function (req, res) {
 });
 
 // Registrar un nuevo producto
-router.post('/', function (req, res) {
+router.post('/agregarProducto', function (req, res) {
     // Metodo para crear un ID autoincrementable
     let itemIds = data.map(item => item.id);
     let nuevoId = itemIds.length > 0 ? Math.max.apply(Math, itemIds) + 1 : 1;
@@ -45,11 +45,15 @@ router.post('/', function (req, res) {
     }
 
     data.push(newItem);
-    res.status(201).json(newItem);
+    res.status(201).json({
+        success: true,
+        message: "Producto Agregado",
+        newItem
+    });
 });
 
 // Metodo que actualiza el producto por ID
-router.put('/:id', function (req, res) {
+router.put('/actualizarProducto/:id', function (req, res) {
     let found = data.find(function (item) {
         return item.id === parseInt(req.params.id);
     });
@@ -64,14 +68,18 @@ router.put('/:id', function (req, res) {
         }
         let targetIndex = data.indexOf(found);
         data.splice(targetIndex, 1, updated);
-        res.sendStatus(204);
+        res.status(200).json({
+            success: true,
+            message: "Producto Actualizado",
+            newItem
+        });
     } else {
         res.sendStatus(500)
     }
 });
 
 // Elimina un producto por ID
-router.delete('/:id', function (req, res) {
+router.delete('/eliminarProducto/:id', function (req, res) {
     let found = data.find(function (item) {
         return item.id === parseInt(req.params.id);
     });
@@ -81,7 +89,11 @@ router.delete('/:id', function (req, res) {
         data.splice(targetIndex, 1);
     }
 
-    res.sendStatus(204);
+    res.status(200).json({
+        success: true,
+        message: "Producto Eliminado",
+        newItem
+    });
 });
 
 module.exports = router;
