@@ -1,0 +1,14 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "main": "server.js",
+  "author": "Edwin Fandiño Salazar",
+  "license": "ISC",
+  "description": "Proyecto 1 API en NODE.JS"
+}
